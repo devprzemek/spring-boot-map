@@ -49,7 +49,5 @@ public class ConfirmedCases {
                 dataRepo.add(stateName, cases);
             }
         }
-
-        dataRepo.getCasesList().forEach((k, v) -> System.out.println(k + " -> " + v));
     }
 }

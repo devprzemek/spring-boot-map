@@ -56,15 +56,10 @@ function resetHighlight(event) {
     info.update();
 }
 
-function zoomToFeature(event) {
-    map.fitBounds(event.target.getBounds());
-}
-
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
     });
 }
 
@@ -88,6 +83,20 @@ info.update = function (props) {
         '<b>' + props.NAME + '</b><br />' + data[props.NAME]+ ' cases'
         : 'Hover over a state');
 };
-
 info.addTo(map);
 
+var legend = L.control({position: 'bottomright'});
+var grades = [0, 10, 20, 50, 100, 200, 500, 1000];
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'legend');
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+    return div;
+};
+
+legend.addTo(map);
